@@ -1,0 +1,14 @@
+{
+    "name": "emong/fit-me",
+    "description": "Web App for weight gain",
+    "license": "Aapche-2.0",
+    "authors": [
+        {
+            "name": "Emily Ngugi"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "phpmailer/phpmailer": "^6.8"
+    }
+}
