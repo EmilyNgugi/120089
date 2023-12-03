@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Calorie Calculator</title>
+    <title>Calorie Calc</title>
 </head>
 <body>
     <h1>Calorie Calculator</h1>
@@ -76,6 +76,32 @@
             document.getElementById("bmr").textContent = bmr;
             document.getElementById("calories").textContent = dailyCalories;
         }
+        function calculateCalories() {
+    
+    const goal = document.getElementById("goal").value;
+    const weeks = parseInt(document.getElementById("In weeks").value);
+    const goalWeight = parseFloat(document.getElementById("Target weight in").value);
+
+    
+    let calorieChangePerDay = 0;
+
+    if (goal === "lose") {
+        
+        calorieChangePerDay = 500; // Adjust as needed
+    } else if (goal === "gain") {
+        // Calculate daily calorie change for weight gain
+        calorieChangePerDay = 500; 
+    }
+
+    // Calculate total calorie change for the set number of weeks
+    const totalCalorieChange = calorieChangePerDay * 7 * weeks;
+
+    // Calculate the new daily calorie intake to achieve the goal
+    const newDailyCalories = dailyCalories + totalCalorieChange;
+
+    document.getElementById("calories").textContent = newDailyCalories;
+}
+
     </script>
 </body>
 </html>

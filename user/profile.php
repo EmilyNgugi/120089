@@ -1,58 +1,77 @@
 <?php
-session_start();
 
-// Check if the user is logged in; if not, redirect to the login page
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+session_start();
+ include('connect.php'); 
+
 if (!isset($_SESSION['username'])) {
-    header('location: login.php');
+   
+    exit();
 }
 
-// Get the user's username from the session
 $username = $_SESSION['username'];
 
-// Connect to the database
-$db = mysqli_connect('localhost', 'root', '', 'registration');
-
-// Check the database connection
-if (!$db) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
-// Query to retrieve user data
-$query = "SELECT * FROM users WHERE username='$username'";
-$result = mysqli_query($db, $query);
-
-if ($result && mysqli_num_rows($result) > 0) {
-    $user = mysqli_fetch_assoc($result);
-    // Display the user's details
-    $fullname = $user['username']; // Change to the actual field name in your database
-    $email = $user['email']; // Change to the actual field name in your database
-    // Add more fields as needed
-
-    mysqli_free_result($result);
-} else {
-    // Handle the case where the user's data is not found
-    echo "User data not found.";
-}
-
-// Close the database connection
-mysqli_close($db);
 ?>
+
 
 <!DOCTYPE html>
 <html>
 <head>
     <title>User Profile</title>
-    <!-- Include your CSS stylesheets and other header content here -->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <style>
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; 
+        }
+
+        form {
+            text-align: center;
+        }
+
+    </style>
+   
 </head>
 <body>
-   
-    <h1>User Profile</h1>
-    <p>Welcome, <?php echo $username; ?>!</p>
-    <p><a href="edit_profile.php">Edit Profile</a></p>
-    <p><a href="change_password.php">Change Password</a></p>
-    <p><a href="delete_account.php">Delete Account</a></p>
-  
-    <p><a href="logout.php">Logout</a></p>
+    <div class="header">
+         <h1><b>USER</b>-PROFILE</h1>
+  </div>
+    <form method="post">
+    
+        <p>Welcome, <?php echo $username; ?>!</p>
+        
+         <div class="input-group">
+        <button type="submit" name="edit_profile" formaction="update_profile.php" class="btn">Edit Profile</button>
+    </div>
+         <div class="input-group">
+        <button type="submit" name="change_password" formaction="change_password.php" class="btn">Change Password</button>
+    </div>
+         <div class="input-group">
+        <button type="submit" name="delete_account" formaction="delete_account_form.php"class="btn">Delete Account</button>
+    </div>
+         <div class="input-group">
+        <button type="submit" name="logout"  onclick="return confirmLogout();" class="btn">Logout</button>
+    </div>
+    </form>
+    <script>
+    
+    function confirmLogout() {
+        var result = confirm("Are you sure you want to log out?");
+        if (result) {
+            // User clicked "OK", redirect to index page
+            window.location.href = 'index.php';
+        } else {
+          
+        }
+        return false;
+    }
+</script>
    
 </body>
 </html>

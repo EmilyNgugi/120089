@@ -46,9 +46,7 @@
         <p>
                 Already a member? <a href="login.php">Sign in</a>
         </p>
-        <p>
-                For Administrators Only <a href="admin_register.php">Sign up</a>
-        </p>
+       
 
   </form>
 </body>

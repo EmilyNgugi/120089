@@ -31,14 +31,11 @@ if (isset($_SESSION['username'])) {
     if ($result->num_rows > 0) {
         $user = $result->fetch_assoc();
 
-        // Now, the $user variable contains the user's data
-        // You can access user data as $user['field_name']
+       
     }
 
-    // Close the database connection
+    
     $stmt->close();
 }
-
-// Close the database connection
 $db->close();
 ?>

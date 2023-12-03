@@ -1,7 +1,10 @@
 
+<?php
 
 
-<?php include('connect.php');
+session_start();
+include('connect.php');
+include('function.php');
 
  use PHPMailer\PHPMailer\PHPMailer;
  use PHPMailer\PHPMailer\SMTP;
@@ -15,6 +18,9 @@ if (isset($_POST["login_user"]))
   $username = $_POST["username"];
   $email = $_POST["email"];
   $password = $_POST["password"];
+
+  $_SESSION['username'] = $username; 
+  $_SESSION['email'] = $email;
 
   $mail = new PHPMailer(true);
 
@@ -54,16 +60,18 @@ if (isset($_POST["login_user"]))
 
     $encrypted_password = password_hash($password, PASSWORD_DEFAULT);
 
-
 $conn = new mysqli('localhost', 'root', '', 'registration');
-$sql = "INSERT INTO users(username, email, password, verification_code, email_verified_at) VALUES ('".$username ."','".$email. "' ,'".$encrypted_password."','".$verification_code."',NULL)";
 
-mysqli_query($conn, $sql);
+   $sql = "INSERT INTO login(username, email, password, verification_code, email_verified_at) VALUES ('".$username ."','".$email. "' ,'".$encrypted_password."','".$verification_code."',NULL)";
 
+mysqli_query($conn, $sql);    
+       
 header("Location:verify2fa.php?email=" . $email);
 exit();
-  }
-  catch(Exception $e) {
+
+
+}
+catch(Exception $e) {
     echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
   }
 }
@@ -73,7 +81,7 @@ exit();
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Registration system PHP and MySQL</title>
+  <title>LOG IN</title>
   <link rel="stylesheet" type="text/css" href="css/style.css">
    <style>
     body.login-page {

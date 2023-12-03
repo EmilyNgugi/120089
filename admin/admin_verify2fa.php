@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['username'] = $email; 
             $_SESSION['success'] = "Email verification successful";
-            header('Location: home.php');
+            header('Location: admin_dashboard.php');
             exit();
         } else {
             $error = "Invalid verification code. Please try again.";

@@ -3,23 +3,23 @@ include('connect.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['email']) && isset($_POST['verification_code'])) {
-        $email = mysqli_real_escape_string($db, $_POST['email']);
-        $entered_code = mysqli_real_escape_string($db, $_POST['verification_code']);
+        $email = mysqli_real_escape_string($conn, $_POST['email']);
+        $entered_code = mysqli_real_escape_string($conn, $_POST['verification_code']);
     }
 
-    
-    $sql = "SELECT verification_code FROM users WHERE email='$email' AND verification_code ='$entered_code'";
-    $result = mysqli_query($db, $sql);
+   
+    $sql = "SELECT verification_code FROM login WHERE email='$email' AND verification_code ='$entered_code'";
+    $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
         $stored_code = $row['verification_code'];
 
-       
+      
         if ($entered_code == $stored_code) {
            
-            $update_sql = "UPDATE users SET email_verified_at=NOW() WHERE email='$email'";
-            mysqli_query($db, $update_sql);
+            $update_sql = "UPDATE login SET email_verified_at=NOW() WHERE email='$email'";
+            mysqli_query($conn, $update_sql);
 
             $_SESSION['username'] = $email; 
             $_SESSION['success'] = "Email verification successful";
@@ -33,7 +33,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-
 
 
 

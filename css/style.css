@@ -249,6 +249,15 @@ form .btn {
   border-radius: 5px;
   align-content: center;
 }
+form .button {
+  padding: 10px;
+  font-size: 17px;
+  color: white;
+  background: #c31e52;;
+  border: none;
+  border-radius: 5px;
+  align-content: right;
+}
 .error {
   width: 92%; 
   margin: 0px auto; 

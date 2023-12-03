@@ -17,6 +17,10 @@ if (isset($_POST["login_user"]))
   $email = $_POST["email"];
   $password = $_POST["password"];
 
+  $_SESSION['username'] = $username; 
+  $_SESSION['email'] = $email;
+
+
   $mail = new PHPMailer(true);
 
   try{
@@ -116,9 +120,6 @@ exit();
         <div class="input-group">
                 <button type="submit" class="btn" name="login_user">Login</button>
         </div>
-        <p>
-                Not yet a member? <a href="admin_register.php">Sign up</a>
-        </p>
 
   </form>
 </body>

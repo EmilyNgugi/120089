@@ -1,49 +1,43 @@
-<?php
+    <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-include('connect.php'); // Include your database connection code
 
-if (isset($_POST['delete_account'])) {
-    $password = $_POST['password'];
-    $user_id = $_SESSION['user_id'];
+session_start();
+include('function.php'); 
+$db = mysqli_connect('localhost', 'root', '', 'registration');
 
-    // Hash the entered password for comparison
-    $entered_password = md5($password); // Use the appropriate hashing method
 
-    $query = "SELECT * FROM users WHERE id='$user_id' AND password='$entered_password'";
-    $result = mysqli_query($db, $query);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['email']) && isset($_POST['delete_account'])) {
+        $entered_email = mysqli_real_escape_string($db, $_POST['email']);
+
+
+    
+    $sql = "SELECT email FROM users WHERE email='$entered_email' ";
+    $result = mysqli_query($db, $sql);
 
     if (mysqli_num_rows($result) == 1) {
-        // Password is correct; proceed with account deletion
-        // Implement account deletion logic here
+       
+            $delete_sql = "DELETE FROM users WHERE email='$entered_email'";
+           if (mysqli_query($db, $delete_sql)){
 
-        session_destroy();
-
-        $delete_query = "DELETE FROM users WHERE id='$user_id'";
-        mysqli_query($db, $delete_query);
-
-        header('location: confirmation.php');
-    } else {
-        // Password is incorrect; display an error message
-        echo "Incorrect password. Account deletion failed.";
+             $_SESSION['success'] = "Account deleted";
+                header('Location: home.php');
+                exit();
+            } else {
+                $error = "Account deletion failed.";
+            }
+        } else {
+            
+            $error = "Email not found. Please input a valid email.";
+        }
+         } else {
+       
+        $error = "Invalid email. Please provide a valid email.";
     }
 }
+
+           
 ?>
-
-
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Delete Account</title>
-</head>
-<body>
-    <h2>Delete Your Account</h2>
-
-    <form method="post" action="delete_account.php">
-        <label for="password">Enter Your Password to Confirm Deletion:</label>
-        <input type="password" name="password" required>
-        <button type="submit" name="delete_account">Delete Account</button>
-    </form>
-    <p><a href="profile.php">Go back to your profile</a></p>
-</body>
-</html>
